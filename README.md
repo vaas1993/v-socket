@@ -25,4 +25,4 @@ java -jar xxx.jar
 2023-02-23 10:40:22.0140 INFO  - HTTP服务启动成功，端口号：20101
 ```
 
-# 详细的文档见 documents 目录
+# 详细的文档见 [document](https://github.com/vaas1993/v-socket/tree/main/documents) 目录
