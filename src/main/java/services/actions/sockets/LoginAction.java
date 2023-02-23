@@ -43,10 +43,11 @@ public class LoginAction extends BaseSocketAction {
             if( !decipher.containsKey("timestamp") ) {
                 throw new ProcessException("timestamp不能为空", 10001);
             }
-            long current = System.currentTimeMillis();
+            long current = System.currentTimeMillis() / 1000;
+            long min = current - 300;
+            long max = current + 300;
             long timestamp = decipher.getLong("timestamp");
-            long step = 600;
-            if( current - step < timestamp || current + step > timestamp ) {
+            if( max < timestamp || min > timestamp ) {
                 throw new ProcessException("请求已过期", 10004);
             }
         }
