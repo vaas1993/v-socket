@@ -1,0 +1,23 @@
+{
+  "http": {
+    "port": 20101
+  },
+  "socket": {
+    "port": 20100,
+    "timeout": 30
+  },
+  "message-queue": {
+    "interval": 1
+  },
+  "db": {
+    "type": "SQLite"
+  },
+  "security": {
+    "timestamp": false,
+    "ssl": {
+      "enable": false,
+      "certificate": "certificate.pfx",
+      "password": ""
+    }
+  }
+}
