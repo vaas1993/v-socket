@@ -142,12 +142,6 @@ class ExceptionHandler extends ChannelInboundHandlerAdapter {
     private static final Logger LOGGER = LogManager.getLogger(ExceptionHandler.class);
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object event) {
-        // 静默超时，需要删除对应的 Channel
-        ChannelManager.getInstance().remove(ctx.channel());
-    }
-
-    @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         Throwable exception = cause.getCause();
 
@@ -278,8 +272,11 @@ class SocketHandler extends SimpleChannelInboundHandler<Object> {
         action.setParams(params);
         action.setChannel(ctx.channel());
         action.beforeRun();
-        action.run();
-
+        JSONObject res = action.run();
+        String[] fields = res.keySet().toArray(new String[0]);
+        for (String field : fields) {
+            response.put(field, res.get(field));
+        }
         return response;
     }
 

@@ -22,7 +22,7 @@ public class ParserMessage extends Thread {
                 try {
                     wait(interval);
                 } catch (InterruptedException e) {
-                    LOGGER.error("暂停消息时出错：" + e.getMessage());
+                    break;
                 }
                 continue;
             }

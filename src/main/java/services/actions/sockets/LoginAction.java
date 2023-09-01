@@ -18,7 +18,9 @@ public class LoginAction extends BaseSocketAction {
         // 存储用户信息和连接信息
         ChannelManager cm = ChannelManager.getInstance();
         cm.add(params.getString("appid"), decipher.getString("id"), channel);
-        return new JSONObject();
+        JSONObject res = new JSONObject();
+        res.put("type", "LOGON");
+        return res;
     }
 
     @Override
