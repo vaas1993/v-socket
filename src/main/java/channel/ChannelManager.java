@@ -44,6 +44,7 @@ public class ChannelManager {
     public void add(String appid, String id, Channel channel) {
         String key = id2key(appid, id);
         String channelID = channel.id().asShortText();
+        remove(appid, id);
         CHANNEL_LIST.put(channelID, channel);
         APPID_ID_TO_CHANNEL_ID_LIST.put(key, channelID);
         CHANNEL_ID_TO_APPID_ID_LIST.put(channelID, key);
@@ -56,11 +57,10 @@ public class ChannelManager {
      */
     public void remove(String appid, String id) {
         String key = id2key(appid, id);
-        String channelId = APPID_ID_TO_CHANNEL_ID_LIST.get(key);
+        String channelID = APPID_ID_TO_CHANNEL_ID_LIST.get(key);
         APPID_ID_TO_CHANNEL_ID_LIST.remove(key);
-        if( channelId != null ) {
-            CHANNEL_ID_TO_APPID_ID_LIST.remove(channelId);
-            CHANNEL_LIST.remove(channelId);
+        if( channelID != null ) {
+            remove(channelID);
         }
     }
 
@@ -69,13 +69,25 @@ public class ChannelManager {
      * @param channel Channel 连接实例
      */
     public void remove(Channel channel) {
-        String channelId = channel.id().asShortText();
-        String key = CHANNEL_ID_TO_APPID_ID_LIST.get(channelId);
+        String channelID = channel.id().asShortText();
+        String key = CHANNEL_ID_TO_APPID_ID_LIST.get(channelID);
         if( key != null ) {
             APPID_ID_TO_CHANNEL_ID_LIST.remove(key);
         }
-        CHANNEL_ID_TO_APPID_ID_LIST.remove(channelId);
-        CHANNEL_LIST.remove(channelId);
+        remove(channelID);
+    }
+
+    /**
+     * 删除并断开连接
+     * @param channelID String 通道ID
+     */
+    public void remove(String channelID) {
+        CHANNEL_ID_TO_APPID_ID_LIST.remove(channelID);
+        Channel channel = CHANNEL_LIST.get(channelID);
+        if( channel != null ) {
+            channel.close();
+        }
+        CHANNEL_LIST.remove(channelID);
     }
 
     /**
